@@ -1,16 +1,17 @@
 const { response } = require('express');
 
-const Pelicua = require('../models/Pelicula');
+const Pelicula = require('../models/Pelicula');
 const Calificacion = require('../models/MovieReviews')
 
 const crearPelicula = async (req, resp = response) => {
     try {
         calificacion = new Calificacion();
-        await calificacion.save();
 
-        pelicula = new Pelicua(req.body);
+        pelicula = new Pelicula(req.body);
         pelicula.calificacion = calificacion.id
         await pelicula.save();
+        await calificacion.save();
+
 
         return resp.status(200).json({
             ok: true,
