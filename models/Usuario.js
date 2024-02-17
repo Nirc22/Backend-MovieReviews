@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+const { Schema, model } = require('mongoose');
 
 const UsuarioSchema = Schema({
     nombre: {
@@ -18,4 +18,15 @@ const UsuarioSchema = Schema({
         type: String,
         required: true
     },
-})
+    rol: {
+        type: Schema.Types.ObjectId,
+        ref: 'rol',
+        required: true,
+        default: '1'
+    },
+    movieReviews: {
+        type: String,
+    }
+});
+
+module.exports = model('usuario', UsuarioSchema)
