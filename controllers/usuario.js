@@ -2,6 +2,7 @@ const { response } = require('express');
 
 const Usuario = require('../models/Usuario');
 
+
 const getUsuarioById = async (req, resp = response) => {
     try {
         const {id} = req.params;

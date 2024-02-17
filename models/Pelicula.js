@@ -5,12 +5,31 @@ const PeliculaSchema = Schema({
         type: String,
         required: true
     },
+    director:{
+        type: Schema.Types.ObjectId,
+        ref: 'director',
+        required: true
+    },
+    actores:[{
+        actor:{
+            type: Schema.Types.ObjectId,
+            ref: 'actor',
+            required: true
+        }
+    }],
     anio: {
         type: Date
     },
-    genero: {
-        type: String,
-        required: true
+    generos: [{
+        genero: {
+            type: Schema.Types.ObjectId,
+            ref: 'genero',
+            required: true
+        }
+    }],
+    calificacion: {
+        type: Schema.Types.ObjectId,
+        ref: 'movieReview',
     }
 
 })
