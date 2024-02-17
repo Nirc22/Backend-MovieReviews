@@ -22,11 +22,21 @@ const UsuarioSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'rol',
         required: true,
-        default: '1'
+        default: '65d03ad36319c77c1c2f97ff'
     },
-    movieReviews: {
-        type: String,
-    }
+    movieReviews: [{
+        movieReview: {
+            type: Schema.Types.ObjectId,
+            ref: 'movieReview',
+            // required: true,
+        },
+        review: {
+            type: Number,
+            // required: true,
+        }       
+    }],
+
+
 });
 
 module.exports = model('usuario', UsuarioSchema)

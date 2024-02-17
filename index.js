@@ -6,6 +6,9 @@ const app = express();
 
 dbConnection();
 
+app.use(express.json());
+
+app.use('/api/rol', require('./Routes/rol'))
 
 
 app.listen(process.env.Port, () => {
