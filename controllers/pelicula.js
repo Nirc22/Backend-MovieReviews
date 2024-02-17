@@ -3,6 +3,19 @@ const { response } = require('express');
 const Pelicula = require('../models/Pelicula');
 const Calificacion = require('../models/MovieReviews')
 
+const getPeliculas = async(req, resp = response) => {
+    try {
+        const peliculas = await Pelicula.find().populate();
+        resp.status(200).json({
+            ok: true,
+            msg: 'Lista de Peliculas',
+            peliculas
+        })
+    } catch (error) {
+        
+    }
+}
+
 const crearPelicula = async (req, resp = response) => {
     try {
         calificacion = new Calificacion();
@@ -28,4 +41,4 @@ const crearPelicula = async (req, resp = response) => {
     }
 }
 
-module.exports = { crearPelicula}
+module.exports = { crearPelicula, getPeliculas}
