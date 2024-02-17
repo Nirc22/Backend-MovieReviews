@@ -13,6 +13,7 @@ app.use(express.json());
 app.use('/api/rol', require('./Routes/rol'))
 app.use('/api/usuario', require('./Routes/usuario'))
 app.use('/api/actor', require('./Routes/actor'))
+app.use('/api/director', require('./Routes/director'))
 
 
 app.listen(process.env.Port, () => {
