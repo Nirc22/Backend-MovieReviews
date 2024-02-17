@@ -1,6 +1,23 @@
 const { response } = require('express');
 const Actor = require('../models/Actor');
 
+const getActores = async (req, resp = response) => {
+    try {
+        const actores = await Actor.find().populate('nombre');
+        resp.status(200).json({
+            ok: true,
+            msg: 'Lista de actores',
+            actores
+        })
+    } catch (error) {
+        console.log(error);
+        resp.status(400).json({
+            ok: false,
+            msg: 'Error al listar actores',
+        });
+    }
+}
+
 const crearActor = async (req, resp = response) => {
     try{
         // const { nombre, apellido } = req.body;
@@ -22,4 +39,4 @@ const crearActor = async (req, resp = response) => {
     }
 }
 
-module.exports = {crearActor}
+module.exports = {crearActor, getActores}

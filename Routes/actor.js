@@ -1,7 +1,9 @@
 const { Router } = require('express')
 const router = Router();
 
-const { crearActor } = require('../controllers/actor');
+const { crearActor, getActores } = require('../controllers/actor');
+
+router.get('/', getActores)
 
 router.post('/create',crearActor);
 
