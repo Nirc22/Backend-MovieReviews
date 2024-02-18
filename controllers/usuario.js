@@ -1,6 +1,7 @@
 const { response } = require('express');
 
 const Usuario = require('../models/Usuario');
+const Calificacion = require('../models/MovieReviews');
 
 
 const getUsuarioById = async (req, resp = response) => {
@@ -17,6 +18,25 @@ const getUsuarioById = async (req, resp = response) => {
         resp.status(400).json({
             ok: false,
             msg: 'error al listar Usuario',
+        });
+    }
+}
+
+const getUsuarios = async (req, resp = response) => {
+    try {
+
+        const usuario = await Usuario.find().populate('nombre');
+        resp.status(200).json({
+            ok: true,
+            msg: 'Lista de usuarios',
+            usuario
+        });
+        
+    } catch (error) {
+        console.log(error);
+        resp.status(400).json({
+            ok: false,
+            msg: 'error al listar usuarios',
         });
     }
 }
@@ -58,4 +78,5 @@ const crearUsuario = async (req, resp = response) => {
 module.exports = {
     getUsuarioById,
     crearUsuario,
+    getUsuarios
 }

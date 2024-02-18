@@ -23,18 +23,14 @@ const UsuarioSchema = Schema({
         ref: 'rol',
         required: true,
         default: '65d03ad36319c77c1c2f97ff'
-    },
-    movieReviews: [{
-        movieReview: {
-            type: Schema.Types.ObjectId,
-            ref: 'movieReview',
-            // required: true,
-        },
-        review: {
-            type: Number,
-            // required: true,
-        }       
-    }],
+    }
+    // movieReviews: [{
+    //     movieReview: {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'usuarioReview',
+    //         // required: true,
+    //     }      
+    // }],
 
 
 });

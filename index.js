@@ -16,6 +16,7 @@ app.use('/api/actor', require('./Routes/actor'))
 app.use('/api/director', require('./Routes/director'))
 app.use('/api/genero', require('./Routes/genero'))
 app.use('/api/pelicula', require('./Routes/pelicula'))
+app.use('/api/usuarioReview', require('./Routes/usuarioReview'))
 
 
 app.listen(process.env.Port, () => {
