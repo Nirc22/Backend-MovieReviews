@@ -1,11 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const MovieReviewSchema = Schema({
-    // pelicula: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'pelicula',
-    //     required: true,
-    // },
+    pelicula: {
+        type: Schema.Types.ObjectId,
+        ref: 'pelicula',
+        required: true,
+    },
     numReviews: {
         type: Number,
         required: true,
