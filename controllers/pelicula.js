@@ -23,8 +23,6 @@ const crearPelicula = async (req, resp = response) => {
         pelicula = new Pelicula(req.body);
 
         calificacion.pelicula = pelicula.id;
-
-        console.log(calificacion.pelicula)
         
         pelicula.calificacion = calificacion.id;
         await pelicula.save();

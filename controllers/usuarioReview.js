@@ -1,7 +1,9 @@
 const { response } = require('express');
 
 const UsuarioReview = require('../models/UsuarioReview');
-const Pelicula = require('../models/Pelicula')
+const Calificacion = require('../models/MovieReviews')
+
+// const Pelicula = require('../models/Pelicula')
 
 const getReviewsById = async (req, resp = response) => {
     try {
@@ -31,27 +33,25 @@ const crearUsuarioReview = async (req, resp = response) => {
         await usuarioReview.save();
 
 
-        pelicula = new Pelicula();
+        // calificacion = new Calificacion();
 
-        const {idPelicula} = req.body;
+        const { pelicula , calificacion} = req.body;
+        console.log(calificacion)
 
-        const listPelicula = await Pelicula.findById(usuarioReview.pelicula);
-
-        // const listPelicula = await Pelicula.find({"pelicula": idPelicula});
-
-        console.log(usuarioReview.pelicula)
-        console.log(listPelicula.calificacion.numReviews)
-
-
-
-        // movieReviews = new Pelicula();
+        const listPelicula = await Calificacion.find({"pelicula": pelicula});
+        const peli = listPelicula[0];
         
 
-        // console.log(movieReviews.calificacion);
-        // console.log(movieReviews);
+        const review = peli.numReviews +1;   
+        const suma = peli.sumReviews +calificacion;
+        const promedio = peli.calificacion = suma / review;
 
-        // const reviewActualizada = await MovieReviews.findByIdAndUpdate('65d1300176cb2513a645dde8', movieReviews.numReviews, { new: true });
+        const movieReviewActualizado = await Calificacion.findByIdAndUpdate(peli.id, 
+                                                                            {numReviews: review, sumReviews: suma, calificacion: promedio}, { new: true });
 
+
+
+        
         return resp.status(200).json({
             ok: true,
             msg: 'Review registrada correctamente',
