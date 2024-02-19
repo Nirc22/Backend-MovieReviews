@@ -27,6 +27,23 @@ const getReviewsById = async (req, resp = response) => {
     }
 }
 
+const updateReview = async (pelicula, calificacion) =>{
+    
+    const listPelicula = await Calificacion.find({"pelicula": pelicula});
+    const peli = listPelicula[0];
+    
+
+    const review = peli.numReviews +1;   
+    const suma = peli.sumReviews +calificacion;
+    const promedio = peli.calificacion = suma / review;
+
+    const movieReviewActualizado = await Calificacion.findByIdAndUpdate(peli.id, 
+                                                                        {numReviews: review, sumReviews: suma, calificacion: promedio}, { new: true });
+
+    
+
+}
+
 const crearUsuarioReview = async (req, resp = response) => {
     try{
         usuarioReview = new UsuarioReview(req.body);      
@@ -36,18 +53,22 @@ const crearUsuarioReview = async (req, resp = response) => {
         // calificacion = new Calificacion();
 
         const { pelicula , calificacion} = req.body;
-        console.log(calificacion)
 
-        const listPelicula = await Calificacion.find({"pelicula": pelicula});
-        const peli = listPelicula[0];
+        updateReview( pelicula, calificacion)
+
+        
+        // console.log(calificacion)
+
+        // const listPelicula = await Calificacion.find({"pelicula": pelicula});
+        // const peli = listPelicula[0];
         
 
-        const review = peli.numReviews +1;   
-        const suma = peli.sumReviews +calificacion;
-        const promedio = peli.calificacion = suma / review;
+        // const review = peli.numReviews +1;   
+        // const suma = peli.sumReviews +calificacion;
+        // const promedio = peli.calificacion = suma / review;
 
-        const movieReviewActualizado = await Calificacion.findByIdAndUpdate(peli.id, 
-                                                                            {numReviews: review, sumReviews: suma, calificacion: promedio}, { new: true });
+        // const movieReviewActualizado = await Calificacion.findByIdAndUpdate(peli.id, 
+        //                                                                     {numReviews: review, sumReviews: suma, calificacion: promedio}, { new: true });
 
 
 
