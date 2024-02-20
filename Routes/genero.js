@@ -13,7 +13,7 @@ router.get('/get', getGeneros);
 
 router.post('/create', 
     [
-        check('nombre', 'El nombre del genero es obligatorio').not().isEmpty(),
+        check('nombre', 'El nombre del genero es obligatorio').not().isEmpty().trim(),
     ],
     validarCampos, 
     validarJWT, 
@@ -23,7 +23,7 @@ router.post('/create',
 
 router.put('/update/:id', 
     [
-        check('nombre', 'El nombre del genero es obligatorio').not().isEmpty(),
+        check('nombre', 'El nombre del genero es obligatorio').not().isEmpty().trim(),
     ],
     validarCampos, 
     validarJWT, 
