@@ -44,4 +44,41 @@ const crearPelicula = async (req, resp = response) => {
     }
 }
 
-module.exports = { crearPelicula, getPeliculas}
+const actualizarPelicula = async (req, resp = response) => {
+
+    const peliculaId = req.params.id;
+
+    try {
+        
+        const pelicula = await Pelicula.findById(peliculaId);
+
+        if(!pelicula) {
+            return resp.status(400).json({
+                ok: false,
+                msg: 'El id no corresponde a ninguna pelicula',
+            });
+        }
+
+        const peliculaActualizada = await Pelicula.findByIdAndUpdate(peliculaId, req.body, { new: true });
+
+        return resp.status(200).json({
+            ok: true,
+            msg: 'Pelicula actualizada de manera exitosa',
+            rol: peliculaActualizada
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        return resp.status(400).json({
+            ok: false,
+            msg: 'Error al actualizar la pelicula',
+        });
+    }
+}
+
+module.exports = { 
+    crearPelicula, 
+    getPeliculas,
+    actualizarPelicula
+}
