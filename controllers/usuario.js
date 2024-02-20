@@ -1,7 +1,10 @@
 const { response } = require('express');
+const bcrypt = require('bcryptjs');
+
 
 const Usuario = require('../models/Usuario');
-const Calificacion = require('../models/MovieReviews');
+const { generarJWT } = require('../helpers/generar-jwt');
+
 
 
 const getUsuarioById = async (req, resp = response) => {
@@ -55,8 +58,8 @@ const crearUsuario = async (req, resp = response) => {
         usuario = new Usuario(req.body);
 
         //Encriptar contraseña
-        // const salt = bcrypt.genSaltSync();
-        // usuario.password = bcrypt.hashSync(password, salt);
+        const salt = bcrypt.genSaltSync();
+        usuario.password = bcrypt.hashSync(password, salt);
 
         await usuario.save();
 
@@ -75,8 +78,53 @@ const crearUsuario = async (req, resp = response) => {
     }
 }
 
+const loginUsuario = async (req, resp = response) => {
+
+    try {
+        const { email, password } = req.body;
+
+        let usuario = await Usuario.findOne({ email }).populate('rol');
+
+        if (!usuario){
+            return resp.status(201).json({
+                ok: false,
+                msg: 'Usuario o contraseña erradas'
+            });
+        }
+
+        if(usuario){
+            //confirmar contraseña
+            const validPassword = bcrypt.compareSync(password, usuario.password);
+            
+            if (!validPassword) {
+                return resp.status(201).json({
+                    ok: false,
+                    msg: 'Usuario o contraseña erradas'
+                });
+            }
+
+            const token = await generarJWT(usuario.id);
+
+            return resp.json({
+                ok: true,
+                msg: 'Sesión Iniciada',
+                uid: usuario.id,
+                name: usuario.nombre,
+                rol: usuario.rol.nombre,
+                token
+            });
+        }
+    } catch(error) {
+        return resp.status(500).json({
+            ok: false,
+            msg: 'Error al autenticar'
+        });
+    }
+}
+
 module.exports = {
     getUsuarioById,
     crearUsuario,
-    getUsuarios
+    getUsuarios,
+    loginUsuario
 }

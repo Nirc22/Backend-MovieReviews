@@ -3,8 +3,11 @@ const router = Router();
 
 const { crearUsuarioReview, getReviewsById } = require('../controllers/usuarioReview');
 
-router.get('/getById/:id', getReviewsById)
+const { validarJWT } = require('../middlewares/validar-jwt');
 
-router.post('/create', crearUsuarioReview);
+
+router.get('/getById/:id', validarJWT, getReviewsById)
+
+router.post('/create', validarJWT, crearUsuarioReview);
 
 module.exports = router;

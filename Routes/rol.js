@@ -4,8 +4,8 @@ const { check } = require('express-validator');
 
 
 const { getRol, crearRol, actualizarRol, eliminarRol } = require('../controllers/rol');
-// const { AdminRole } = require('../middlewares/validar-roles');
-// const { validarJWT } = require('../middlewares/validar-jwt');
+const { AdminRole } = require('../middlewares/validar-roles');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 // const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -19,8 +19,8 @@ router.post(
         check('nombre','El nombre del rol es obligatorio').not().isEmpty(),
     ],
     // validarCampos,
-    // validarJWT,
-    // AdminRole,
+    validarJWT,
+    AdminRole,
     crearRol
     );
 
@@ -30,8 +30,8 @@ router.put(
         check('nombre','El nombre del rol es obligatorio').not().isEmpty(),
     ],
     // validarCampos,
-    // validarJWT,
-    // AdminRole,
+    validarJWT,
+    AdminRole,
     actualizarRol
     );
 

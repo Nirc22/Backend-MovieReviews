@@ -5,14 +5,14 @@ const router = Router();
 const { crearUsuario, getUsuarioById, getUsuarios, createReview, loginUsuario, actualizarUsuario, actualizarPassword } = require('../controllers/usuario');
 
 // const { validarCampos } = require('../middlewares/validar-campos');
-// const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 router.get('/profile/:id',
-    // validarJWT,
+    validarJWT,
     getUsuarioById
 );
 
-router.get('/getUsuarios', getUsuarios)
+router.get('/getUsuarios', validarJWT, getUsuarios)
 
 router.post(
     '/create',
@@ -26,9 +26,8 @@ router.post(
     crearUsuario
 );
 
+router.post('/login', loginUsuario);
+
 // router.put('/create/:id', createReview)
-
-
-
 
 module.exports = router;
