@@ -4,7 +4,7 @@ const router = Router();
 
 const { crearUsuario, getUsuarioById, getUsuarios, createReview, loginUsuario, actualizarUsuario, actualizarPassword } = require('../controllers/usuario');
 
-// const { validarCampos } = require('../middlewares/validar-campos');
+const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 router.get('/profile/:id',
@@ -22,7 +22,7 @@ router.post(
         check('email', 'El email es obligatorio').isEmail(),
         check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
     ],
-    // validarCampos,
+    validarCampos,
     crearUsuario
 );
 
