@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const router = Router();
 
-const { crearActor, getActores, actualizarActor} = require('../controllers/actor');
+const { crearActor, getActores, actualizarActor, eliminarActor} = require('../controllers/actor');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { AdminRole } = require('../middlewares/validar-roles');
@@ -29,6 +29,12 @@ router.put('/update/:id',
     validarJWT, 
     AdminRole, 
     actualizarActor
+);
+
+router.delete('/delete/:id',
+    validarJWT, 
+    AdminRole,
+    eliminarActor 
 );
 
 module.exports = router;

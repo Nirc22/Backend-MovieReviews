@@ -13,14 +13,14 @@ const getReviewsById = async (req, resp = response) => {
         console.log(id);
 
         const listReviews = await UsuarioReview.find({ "usuario": id });
-        resp.status(200).json({
+        return resp.status(200).json({
             ok: true,
             msg: 'Lista de reviews',
             listReviews
         });
     } catch (error) {
         console.log(error);
-        resp.status(400).json({
+        return resp.status(400).json({
             ok: false,
             msg: 'error al listar reviews del usuario',
         });

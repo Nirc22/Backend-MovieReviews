@@ -11,14 +11,14 @@ const getUsuarioById = async (req, resp = response) => {
     try {
         const {id} = req.params;
         const usuario = await Usuario.findById(id);
-        resp.status(200).json({
+        return resp.status(200).json({
             ok: true,
             msg: 'Usuario',
             usuario
         });
     } catch (error) {
         console.log(error);
-        resp.status(400).json({
+        return resp.status(400).json({
             ok: false,
             msg: 'error al listar Usuario',
         });
@@ -29,7 +29,7 @@ const getUsuarios = async (req, resp = response) => {
     try {
 
         const usuario = await Usuario.find().populate('nombre');
-        resp.status(200).json({
+        return resp.status(200).json({
             ok: true,
             msg: 'Lista de usuarios',
             usuario
@@ -37,7 +37,7 @@ const getUsuarios = async (req, resp = response) => {
         
     } catch (error) {
         console.log(error);
-        resp.status(400).json({
+        return resp.status(400).json({
             ok: false,
             msg: 'error al listar usuarios',
         });
