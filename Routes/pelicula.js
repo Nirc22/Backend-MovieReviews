@@ -13,7 +13,7 @@ router.get('/', getPeliculas);
 
 router.post('/create',
     [
-        check('nombre','El nombre da la pelicula es obligatoria').not().isEmpty(),
+        check('nombre','El nombre da la pelicula es obligatoria').not().isEmpty().trim(),
         check('director','El id dal director es obligatorio').not().isEmpty(),
         check('actores', 'El id de actores es obligatorio').not().isEmpty(),
         // check('actor', 'El id de actor es obligatorio').not().isEmpty(),
@@ -28,7 +28,7 @@ router.post('/create',
 
 router.put('/update/:id',
     [
-        check('nombre','El nombre da la pelicula es obligatoria').not().isEmpty(),
+        check('nombre','El nombre da la pelicula es obligatoria').not().isEmpty().trim(),
         check('director','El id dal director es obligatorio').not().isEmpty(),
         check('actores', 'El id de actores es obligatorio').not().isEmpty(),
         // check('actor', 'El id de actor es obligatorio').not().isEmpty(),

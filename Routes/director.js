@@ -14,8 +14,8 @@ router.get('/get', getDirectores);
 
 router.post('/create',
     [
-        check('nombre','El nombre del actor es obligatorio').not().isEmpty(),
-        check('apellido','El apellido del actor es obligatorio').not().isEmpty(),
+        check('nombre','El nombre del actor es obligatorio').not().isEmpty().trim(),
+        check('apellido','El apellido del actor es obligatorio').not().isEmpty().trim(),
     ], 
     validarCampos,
     validarJWT, 
@@ -25,8 +25,8 @@ router.post('/create',
 
 router.put('/update/:id', 
     [
-        check('nombre','El nombre del actor es obligatorio').not().isEmpty(),
-        check('apellido','El apellido del actor es obligatorio').not().isEmpty(),
+        check('nombre','El nombre del actor es obligatorio').not().isEmpty().trim(),
+        check('apellido','El apellido del actor es obligatorio').not().isEmpty().trim(),
     ],
     validarCampos,
     validarJWT,
