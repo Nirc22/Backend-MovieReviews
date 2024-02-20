@@ -39,4 +39,41 @@ const crearActor = async (req, resp = response) => {
     }
 }
 
-module.exports = {crearActor, getActores}
+const actualizarActor = async (req, resp = response) => {
+
+    const actorId = req.params.id;
+
+    try {
+        
+        const actor = await Actor.findById(actorId);
+
+        if(!actor) {
+            resp.status(201).json({
+                ok: false,
+                msg: 'El id del actor no coincide con ningun elemento en la base de datos',
+            });
+        }
+
+        const actorActualizado = await Actor.findByIdAndUpdate(actorId, req.body, { new: true });
+
+        resp.status(200).json({
+            ok: true,
+            msg: 'Actor actualizado de manera exitosa',
+            rol: actorActualizado
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        resp.status(400).json({
+            ok: false,
+            msg: 'Error al actualizar el actor',
+        });
+    }
+}
+
+module.exports = {
+    crearActor, 
+    getActores,
+    actualizarActor
+}
