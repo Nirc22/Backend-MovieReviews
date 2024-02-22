@@ -5,7 +5,10 @@ const Calificacion = require('../models/MovieReviews')
 
 const getPeliculas = async(req, resp = response) => {
     try {
-        const peliculas = await Pelicula.find().populate();
+        const peliculas = await Pelicula.find().populate('director')
+                                               .populate('actores.actor')
+                                               .populate('generos.genero')
+                                               .populate('calificacion');
         resp.status(200).json({
             ok: true,
             msg: 'Lista de Peliculas',
