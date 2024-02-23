@@ -3,19 +3,19 @@ const { response } = require('express');
 const Pelicula = require('../models/Pelicula');
 const Calificacion = require('../models/MovieReviews')
 
-const getPeliculas = async(req, resp = response) => {
+const getPeliculas = async (req, resp = response) => {
     try {
         const peliculas = await Pelicula.find().populate('director')
-                                               .populate('actores.actor')
-                                               .populate('generos.genero')
-                                               .populate('calificacion');
+            .populate('actores.actor')
+            .populate('generos.genero')
+            .populate('calificacion');
         resp.status(200).json({
             ok: true,
             msg: 'Lista de Peliculas',
             peliculas
         })
     } catch (error) {
-        
+
     }
 }
 
@@ -26,7 +26,7 @@ const crearPelicula = async (req, resp = response) => {
         pelicula = new Pelicula(req.body);
 
         calificacion.pelicula = pelicula.id;
-        
+
         pelicula.calificacion = calificacion.id;
         await pelicula.save();
         await calificacion.save();
@@ -52,10 +52,10 @@ const actualizarPelicula = async (req, resp = response) => {
     const peliculaId = req.params.id;
 
     try {
-        
+
         const pelicula = await Pelicula.findById(peliculaId);
 
-        if(!pelicula) {
+        if (!pelicula) {
             return resp.status(400).json({
                 ok: false,
                 msg: 'El id no corresponde a ninguna pelicula',
@@ -82,8 +82,11 @@ const actualizarPelicula = async (req, resp = response) => {
 
 const getPeliculaById = async (req, resp = response) => {
     try {
-        const {id} = req.params;
-        const pelicula = await Pelicula.findById(id);
+        const { id } = req.params;
+        const pelicula = await Pelicula.findById(id).populate('director')
+            .populate('actores.actor')
+            .populate('generos.genero')
+            .populate('calificacion');
         return resp.status(200).json({
             ok: true,
             msg: 'Pelicula',
@@ -98,8 +101,8 @@ const getPeliculaById = async (req, resp = response) => {
     }
 }
 
-module.exports = { 
-    crearPelicula, 
+module.exports = {
+    crearPelicula,
     getPeliculas,
     actualizarPelicula,
     getPeliculaById
