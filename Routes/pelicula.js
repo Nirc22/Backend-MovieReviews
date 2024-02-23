@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const router = Router();
 
-const { crearPelicula, getPeliculas, actualizarPelicula } = require('../controllers/pelicula');
+const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById } = require('../controllers/pelicula');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { AdminRole } = require('../middlewares/validar-roles');
@@ -10,6 +10,9 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 
 router.get('/', getPeliculas);
+
+router.get('/getById/:id', getPeliculaById);
+
 
 router.post('/create',
     [
