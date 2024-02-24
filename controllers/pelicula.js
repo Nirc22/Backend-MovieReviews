@@ -1,7 +1,9 @@
 const { response } = require('express');
 
 const Pelicula = require('../models/Pelicula');
-const Calificacion = require('../models/MovieReviews')
+const Calificacion = require('../models/MovieReviews');
+
+const fs = require('node:fs');
 
 const getPeliculas = async (req, resp = response) => {
     try {
@@ -101,9 +103,23 @@ const getPeliculaById = async (req, resp = response) => {
     }
 }
 
+imagen = async (req, resp = response) =>{
+    console.log(req.file);
+    saveImage(req.file)
+    resp.send('Termina');
+}
+
+function saveImage(file){
+    const newPath = `./uploads/${file.originalname}`;
+    fs.renameSync(file.path, newPath);
+    return newPath;
+}
+
 module.exports = {
     crearPelicula,
     getPeliculas,
     actualizarPelicula,
-    getPeliculaById
+    getPeliculaById,
+    imagen,
+    saveImage
 }

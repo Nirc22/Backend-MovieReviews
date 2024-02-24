@@ -2,11 +2,12 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const router = Router();
 
-const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById } = require('../controllers/pelicula');
+const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, imagen, saveImage } = require('../controllers/pelicula');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { AdminRole } = require('../middlewares/validar-roles');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const { upload } = require('../middlewares/multer');
 
 
 router.get('/', getPeliculas);
@@ -15,6 +16,7 @@ router.get('/getById/:id', getPeliculaById);
 
 
 router.post('/create',
+    // upload.single('imagenPelicula'),
     [
         check('nombre','El nombre da la pelicula es obligatoria').not().isEmpty().trim(),
         check('director','El id dal director es obligatorio').not().isEmpty(),
@@ -43,5 +45,7 @@ router.put('/update/:id',
     AdminRole, 
     actualizarPelicula
 );
+
+router.post('/images/single', upload.single('imagenPelicula'), imagen)
 
 module.exports = router;

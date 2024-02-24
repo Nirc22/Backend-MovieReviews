@@ -1,24 +1,25 @@
 const express = require('express')
 const cors = require('cors');
 require('dotenv').config();
+
+// const multer = require('multer');
+
+// const upload = multer({dest: 'uploads/'});
+
 const {dbConnection} = require('./database/config')
 
 const app = express();
+
+// app.post('/images/single', upload.single('imagenPelicula'), (req, res) =>{
+//     console.log(req.file);
+//     res.send('Termina')
+// })
 
 dbConnection();
 
 app.use(cors());
 
 app.use(express.json());
-
-
-// app.use(cors({
-//     origin: 'http://localhost:4200',  // Reemplaza esto con el origen correcto de tu aplicación Angular
-//     methods: 'GET,POST',                // También puedes especificar los métodos HTTP permitidos
-//     allowedHeaders: 'Content-Type,Authorization' // También puedes especificar los encabezados permitidos
-//   }));
-
-// app.use(cors('/api/usuario', require('./Routes/usuario')));
 
 app.use('/api/rol', require('./Routes/rol'))
 app.use('/api/usuario', require('./Routes/usuario'))
