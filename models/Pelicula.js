@@ -10,29 +10,30 @@ const PeliculaSchema = Schema({
         ref: 'director',
         required: true
     },
-    // actores:[{
-    //     actor:{
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'actor',
-    //         required: true
-    //     }
-    // }],
+    actores:[{
+        actor:{
+            type: Schema.Types.ObjectId,
+            ref: 'actor',
+            required: true
+        }
+    }],
     anio: {
         type: Date
     },
-    // generos: [{
-    //     genero: {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'genero',
-    //         required: true
-    //     }
-    // }],
+    generos: [{
+        genero: {
+            type: Schema.Types.ObjectId,
+            ref: 'genero',
+            required: true
+        }
+    }],
     calificacion: {
         type: Schema.Types.ObjectId,
         ref: 'movieReview',
     },
     imagenPelicula:{
-        type: String
+        type: String,
+        // required: true
     }
 
 })

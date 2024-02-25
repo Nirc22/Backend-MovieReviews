@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 require('dotenv').config();
+const {path, join} = require('path');
 
 // const multer = require('multer');
 
@@ -20,6 +21,17 @@ dbConnection();
 app.use(cors());
 
 app.use(express.json());
+
+
+// const directorioUploads = path.join(__dirname, 'uploads');
+
+// Configura express.static() para servir archivos estáticos desde 'uploads'
+// app.use('/uploads', express.static(directorioUploads));
+
+app.use('/uploads', express.static(join(__dirname, 'uploads')));
+
+
+// app.use(express.static('public'))//para poder acceder al directorio uploads
 
 app.use('/api/rol', require('./Routes/rol'))
 app.use('/api/usuario', require('./Routes/usuario'))

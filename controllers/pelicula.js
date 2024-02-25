@@ -24,11 +24,8 @@ const getPeliculas = async (req, resp = response) => {
 const crearPelicula = async (req, resp = response) => {
     try {
         calificacion = new Calificacion();
-
         pelicula = new Pelicula(req.body);
-
         calificacion.pelicula = pelicula.id;
-
         pelicula.calificacion = calificacion.id;
         await pelicula.save();
         await calificacion.save();
@@ -38,7 +35,7 @@ const crearPelicula = async (req, resp = response) => {
             ok: true,
             msg: 'Pelicula registrada',
             uid: pelicula.id,
-            calificacion: pelicula.calificacion
+            calificacion: pelicula
         })
     } catch (error) {
         console.log(error);
@@ -115,11 +112,67 @@ function saveImage(file){
     return newPath;
 }
 
+const savePelicula = async(req, resp= response) =>{
+    try {
+        // nuevaPelicula = new Pelicula(req.body);
+        // console.log(nuevaPelicula)
+        const {nombre, director, actores, anio, generos} = req.body
+        const validacion = validar(req.file,'Y')
+        if(validacion == ''){
+            nuevaPelicula = new Pelicula({
+                nombre:nombre,director:director,actores:actores,anio:anio,generos:generos,
+                imagenPelicula:'./uploads/'+req.file.filename
+            })
+            console.log(nuevaPelicula)
+
+            // return await nuevaPelicula.save().then(
+            //     () => {resp.status(200).json({ok:true, msg:'Pelicula creada'})}
+            // )
+            await nuevaPelicula.save();
+
+            return resp.status(200).json({
+                ok: true,
+                msg: 'Pelicula registrada',
+                uid: nuevaPelicula
+                // calificacion: pelicula.calificacion
+            })
+        }else{
+            return resp.status(200).json({
+                ok:false,
+                mgs:validacion
+            })
+        }
+        
+    } catch (error) {
+        return resp.status(500).json({
+            ok:false,
+            mgs:'error esssss',error
+        })
+        
+    }
+}
+
+const validar = (nombre, director, actores, anio, generos, imagenPelicula, sevalida) =>{
+    var errors = []
+    // if(nombre === undefined||nombre.trim()===''){
+    //     errors.push('El nombre NO debe estar vacío')
+    // }
+    if(sevalida === 'Y' && imagenPelicula === undefined){
+        errors.push('Selecciona una imagen en formato jpg o png')
+    }else{
+        if(errors != ''){
+            fs.unlinkSync('./uploads/'+imagenPelicula.filename)
+        }
+    }
+    return errors
+}
+
 module.exports = {
     crearPelicula,
     getPeliculas,
     actualizarPelicula,
     getPeliculaById,
     imagen,
-    saveImage
+    saveImage,
+    savePelicula
 }
