@@ -2,12 +2,13 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const router = Router();
 
-const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, imagen, savePelicula } = require('../controllers/pelicula');
+const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, imagen, savePelicula, pelicula } = require('../controllers/pelicula');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { AdminRole } = require('../middlewares/validar-roles');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { upload, subirImagen } = require('../middlewares/multer');
+const { upload, subirImagen, uploadImagen } = require('../middlewares/multer');
+
 
 
 router.get('/', getPeliculas);
@@ -58,7 +59,22 @@ router.post('/crear',
     // ], 
     // validarCampos,
 
-    savePelicula)
+    savePelicula);
+
+router.post('/crearPelicula', 
+    [
+        check('nombre','El nombre da la pelicula es obligatoria').not().isEmpty().trim(),
+        check('director','El id dal director es obligatorio').not().isEmpty(),
+        check('actores', 'El id de actores es obligatorio').not().isEmpty(),
+        // check('actor', 'El id de actor es obligatorio').not().isEmpty(),
+        check('anio', 'La fecha de estreno es oblgatoria').not().isEmpty(),
+        check('generos', 'El id de genero es obligatorio').not().isEmpty(),
+    ], 
+    validarCampos,
+    // uploadImagen.single('imagenPelicula'), 
+
+    
+    pelicula)
 
 router.post('/images/single', upload.single('imagenPelicula'), imagen)
 

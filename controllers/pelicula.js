@@ -23,8 +23,8 @@ const getPeliculas = async (req, resp = response) => {
 
 const crearPelicula = async (req, resp = response) => {
     try {
-        calificacion = new Calificacion();
-        pelicula = new Pelicula(req.body);
+        const calificacion = new Calificacion();
+        const pelicula = new Pelicula(req.body);
         calificacion.pelicula = pelicula.id;
         pelicula.calificacion = calificacion.id;
         await pelicula.save();
@@ -167,6 +167,31 @@ const validar = (nombre, director, actores, anio, generos, imagenPelicula, seval
     return errors
 }
 
+const pelicula = async(req, resp= response) =>{
+    try {
+        const calificacion = new Calificacion();
+        const pelicula = new Pelicula(req.body);
+        calificacion.pelicula = pelicula.id;
+        pelicula.calificacion = calificacion.id;
+        await pelicula.save();
+        await calificacion.save();
+
+
+        return resp.status(200).json({
+            ok: true,
+            msg: 'Pelicula registrada',
+            uid: pelicula.id,
+            calificacion: pelicula
+        })
+    } catch (error) {
+        console.log(error);
+        return resp.status(500).json({
+            ok: false,
+            msg: 'Error al registrar pelicula'
+        })
+    }
+}
+
 module.exports = {
     crearPelicula,
     getPeliculas,
@@ -174,5 +199,6 @@ module.exports = {
     getPeliculaById,
     imagen,
     saveImage,
-    savePelicula
+    savePelicula,
+    pelicula
 }
