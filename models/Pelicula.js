@@ -18,7 +18,7 @@ const PeliculaSchema = Schema({
         }
     }],
     anio: {
-        type: Date
+        type: Date,
     },
     generos: [{
         genero: {
@@ -33,9 +33,10 @@ const PeliculaSchema = Schema({
     },
     imagenPelicula:{
         type: String,
-        // required: true
+        // required: true,
+        default: './uploads/SinImagen.jpg'
     }
-
+    
 })
 
 module.exports = model('pelicula', PeliculaSchema)

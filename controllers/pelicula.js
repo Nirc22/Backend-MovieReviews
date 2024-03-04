@@ -1,5 +1,8 @@
 const { response } = require('express');
 
+const { createReadStream } = require('fs');
+const Busboy = require('busboy');
+
 const Pelicula = require('../models/Pelicula');
 const Calificacion = require('../models/MovieReviews');
 
@@ -112,6 +115,38 @@ function saveImage(file){
     return newPath;
 }
 
+const actualizarImagen = async(req, resp= response) =>{
+        const { id } = req.params;
+
+    try {
+        const pelicula = await Pelicula.findById(id);
+
+        if (!pelicula) {
+            return resp.status(400).json({
+                ok: false,
+                msg: 'El id no corresponde a ninguna pelicula',
+            });
+        }
+        const imagen = './uploads/'+req.file.filename;
+        const peliculaActualizada = await Pelicula.findByIdAndUpdate(id, {imagenPelicula:imagen}, { new: true });
+
+        return resp.status(200).json({
+            ok: true,
+            msg: 'Pelicula actualizada de manera exitosa',
+            rol: peliculaActualizada
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        return resp.status(400).json({
+            ok: false,
+            msg: 'Error al actualizar la pelicula',
+        });
+    }
+
+}
+
 const savePelicula = async(req, resp= response) =>{
     try {
         // nuevaPelicula = new Pelicula(req.body);
@@ -171,8 +206,10 @@ const pelicula = async(req, resp= response) =>{
     try {
         const calificacion = new Calificacion();
         const pelicula = new Pelicula(req.body);
+        console.log(pelicula.nombre)
         calificacion.pelicula = pelicula.id;
         pelicula.calificacion = calificacion.id;
+        
         await pelicula.save();
         await calificacion.save();
 
@@ -187,9 +224,14 @@ const pelicula = async(req, resp= response) =>{
         console.log(error);
         return resp.status(500).json({
             ok: false,
-            msg: 'Error al registrar pelicula'
+            msg: 'Error al registrar pelicula',
+            error:error.error
         })
     }
+}
+
+const prueba = async(req, resp= response) =>{
+    console.log('Imagen guardada')
 }
 
 module.exports = {
@@ -200,5 +242,7 @@ module.exports = {
     imagen,
     saveImage,
     savePelicula,
-    pelicula
+    pelicula,
+    prueba,
+    actualizarImagen
 }
