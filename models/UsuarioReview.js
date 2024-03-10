@@ -7,6 +7,7 @@ const UsuarioReviewSchema = Schema({
     },
     pelicula: {
         type: Schema.Types.ObjectId,
+        ref: 'pelicula',
         required: true
     },
     calificacion: {
