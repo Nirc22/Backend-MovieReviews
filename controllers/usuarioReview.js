@@ -5,7 +5,7 @@ const Calificacion = require('../models/MovieReviews')
 
 // const Pelicula = require('../models/Pelicula')
 
-const getReviewsById = async (req, resp = response) => {
+const getReviewsUsuario = async (req, resp = response) => {
     try {
 
         const { id } = req.params;
@@ -27,7 +27,7 @@ const getReviewsById = async (req, resp = response) => {
     }
 }
 
-const updateMovieReview = async (pelicula, calificacion) => {
+const crearMovieReview = async (pelicula, calificacion) => {
     
     const listPelicula = await Calificacion.find({ "pelicula": pelicula });
     const peli = listPelicula[0];
@@ -45,7 +45,7 @@ const crearUsuarioReview = async (req, resp = response) => {
         const movie = await UsuarioReview.find({"pelicula": pelicula, "usuario": usuario });
         if(movie.length === 0){
             console.log(movie)
-            updateMovieReview(pelicula, calificacion)
+            crearMovieReview(pelicula, calificacion)
             await usuarioReview.save();
             return resp.status(200).json({
                 ok: true,
@@ -70,7 +70,54 @@ const crearUsuarioReview = async (req, resp = response) => {
     }
 }
 
+const actualizarMovieReview = async (pelicula, nuevaCalificacion) => {
+    
+    const listPelicula = await Calificacion.find({ "pelicula": pelicula });
+    const peli = listPelicula[0];
+    const review = peli.numReviews;
+    const suma = peli.sumReviews + nuevaCalificacion;
+    const promedio = peli.calificacion = suma / review;
+    await Calificacion.findByIdAndUpdate(peli.id,
+        {  sumReviews: suma, calificacion: promedio }, { new: true });
+}
+
+const actualizarUsuarioReview = async (req, resp = response) =>{
+    try {
+        const {id} = req.params;
+        const { usuario, pelicula, calificacion } = req.body;
+        const review = await UsuarioReview.findById(id);
+        const vCalificacion = review.calificacion;
+
+        const listPelicula = await Calificacion.find({ "pelicula": pelicula });
+        const peli = listPelicula[0];
+        const suma = peli.sumReviews - vCalificacion;
+
+        await Calificacion.findByIdAndUpdate(peli.id,
+            { sumReviews: suma }, { new: true });
+
+        actualizarMovieReview(pelicula, calificacion)
+
+        const reviewUpdate = await UsuarioReview.findByIdAndUpdate(id, 
+            { calificacion: calificacion }, { new: true });
+
+        return resp.status(200).json({
+            ok: true,
+            msg: 'Review actualizada',
+            review: reviewUpdate
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return resp.status(500).json({
+            ok: false,
+            msg: 'Error al actualizar la review'
+        })
+    }
+
+}
+
 module.exports = {
     crearUsuarioReview,
-    getReviewsById
+    getReviewsUsuario,
+    actualizarUsuarioReview
 }
