@@ -116,8 +116,29 @@ const actualizarUsuarioReview = async (req, resp = response) =>{
 
 }
 
+const getReviewsUsuarioById = async (req, resp = response) =>{
+    try {
+        const {id} = req.params;
+        const review = await UsuarioReview.findById(id).populate('pelicula');
+        return resp.status(200).json({
+            ok: true,
+            msg: 'Review',
+            review
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return resp.status(400).json({
+            ok: false,
+            msg: 'Error al listar Review',
+        });
+    }
+}
+
+
 module.exports = {
     crearUsuarioReview,
     getReviewsUsuario,
-    actualizarUsuarioReview
+    actualizarUsuarioReview,
+    getReviewsUsuarioById
 }
