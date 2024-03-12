@@ -103,6 +103,32 @@ const getPeliculaById = async (req, resp = response) => {
     }
 }
 
+const getPeliculaByNombre = async (req, resp= response) => {
+    try {
+        const {nombre} = req.params;
+        console.log(nombre)
+        const peliculas = await Pelicula.find({ "nombre": { $regex: new RegExp(nombre, "i") } }).populate('calificacion');//funciona para buscar peliculas por nombres que conincidan con lo enviado en el body
+        if (peliculas.length === 0) {
+            return resp.status(404).json({
+                ok: false,
+                msg: 'No se encontraron películas con ese nombre',
+            });
+        }
+        return resp.status(200).json({
+            ok: true,
+            msg: 'Peliculas por nombre',
+            peliculas
+        });
+    } catch (error) {
+        console.log(error);
+        return resp.status(400).json({
+            ok: false,
+            msg: 'Error al buscar peliculas',
+        });
+        
+    }
+}
+
 imagen = async (req, resp = response) =>{
     console.log(req.file);
     saveImage(req.file)
@@ -239,6 +265,7 @@ module.exports = {
     getPeliculas,
     actualizarPelicula,
     getPeliculaById,
+    getPeliculaByNombre,
     imagen,
     saveImage,
     savePelicula,

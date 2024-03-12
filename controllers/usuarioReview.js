@@ -10,7 +10,7 @@ const getReviewsUsuario = async (req, resp = response) => {
 
         const { id } = req.params;
 
-        console.log(id);
+        // console.log(id);
 
         const listReviews = await UsuarioReview.find({ "usuario": id }).populate('pelicula');
         return resp.status(200).json({

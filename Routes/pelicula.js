@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const router = Router();
 
-const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, imagen, savePelicula, pelicula, prueba, actualizarImagen } = require('../controllers/pelicula');
+const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, getPeliculaByNombre, imagen, savePelicula, pelicula, prueba, actualizarImagen } = require('../controllers/pelicula');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { AdminRole } = require('../middlewares/validar-roles');
@@ -14,6 +14,8 @@ const { upload, subirImagen, uploadImagen } = require('../middlewares/multer');
 router.get('/', getPeliculas);
 
 router.get('/getById/:id', getPeliculaById);
+
+router.get('/getByNombre/:nombre', getPeliculaByNombre);
 
 
 router.post('/create',
