@@ -28,6 +28,8 @@ router.post(
 
 router.post('/login', loginUsuario);
 
+router.post('/validarToken', validarJWT);
+
 // router.put('/create/:id', createReview)
 
 module.exports = router;

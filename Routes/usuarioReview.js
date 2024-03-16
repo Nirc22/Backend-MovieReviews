@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { isInt } = require('validator');
 
 
-const { crearUsuarioReview, getReviewsUsuario, actualizarUsuarioReview, getReviewsUsuarioById } = require('../controllers/usuarioReview');
+const { crearUsuarioReview, getReviewsUsuario, actualizarUsuarioReview, getReviewsUsuarioById, getReviewPeliculaByNombre } = require('../controllers/usuarioReview');
 
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -31,6 +31,9 @@ router.post(
 router.get('/getReviewById/:id', validarJWT, getReviewsUsuarioById)
 
 router.put('/updateReviewUsuario/:id', validarJWT, actualizarUsuarioReview)
+
+router.get('/getReviewPeliculaNombre/:nombre', getReviewPeliculaByNombre)
+
 
 
 module.exports = router;
