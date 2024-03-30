@@ -28,7 +28,11 @@ router.post(
 
 router.post('/login', loginUsuario);
 
-router.post('/validarToken', validarJWT);
+router.post('/validar-token', validarJWT, (req, res) => {
+    res.json({ ok: true, msg: 'Token válido' });
+  });
+
+// router.post('/validarToken', validarJWT);
 
 // router.put('/create/:id', createReview)
 
