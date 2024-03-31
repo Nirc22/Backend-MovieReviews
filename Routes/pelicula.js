@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const router = Router();
 
-const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, getPeliculaByNombre, imagen, savePelicula, pelicula, prueba, actualizarImagen } = require('../controllers/pelicula');
+const { crearPelicula, getPeliculas, actualizarPelicula, getPeliculaById, getPeliculaByNombre, imagen, savePelicula, createPelicula, prueba, actualizarImagen } = require('../controllers/pelicula');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { AdminRole } = require('../middlewares/validar-roles');
@@ -51,6 +51,8 @@ router.put('/update/:id',
 
 router.put('/imagen/:id', 
     uploadImagen.single('imagenPelicula'),
+    validarJWT, 
+    AdminRole, 
     actualizarImagen
 );
 
@@ -65,7 +67,9 @@ router.post('/crearPelicula',
         check('generos', 'El id de genero es obligatorio').not().isEmpty(),
     ], 
     validarCampos,
-    pelicula
+    validarJWT, 
+    AdminRole,
+    createPelicula
 );
 
 router.post('/images/single', upload.single('imagenPelicula'), imagen)

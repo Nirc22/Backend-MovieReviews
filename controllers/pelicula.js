@@ -228,11 +228,11 @@ const validar = (nombre, director, actores, anio, generos, imagenPelicula, seval
     return errors
 }
 
-const pelicula = async(req, resp= response) =>{
+const createPelicula = async(req, resp= response) =>{
     try {
         const calificacion = new Calificacion();
         const pelicula = new Pelicula(req.body);
-        console.log(pelicula.nombre)
+        // console.log(pelicula.nombre)
         calificacion.pelicula = pelicula.id;
         pelicula.calificacion = calificacion.id;
         
@@ -269,7 +269,7 @@ module.exports = {
     imagen,
     saveImage,
     savePelicula,
-    pelicula,
+    createPelicula,
     prueba,
     actualizarImagen
 }
